@@ -48,9 +48,9 @@ Let's say you wanted to connect a stainless-steel microwave coax line from a 40K
 ```python
 import cryoheatflow
 
-# Calculate thermal power through a copper wire (22 gauge, RRR=50)
-k = cryoheatflow.conductivity.k_cu_rrr50
-area = cryoheatflow.area.coax_085  # 22 AWG wire
+# Select stainless steel as the material
+k = cryoheatflow.conductivity.k_ss
+area = cryoheatflow.area.coax_085  # 0.085" outer-diameter coax
 length = 30e-3  # 30 mm
 T1 = 40  # 40 K 
 T2 = 4   # 4 K
@@ -64,9 +64,9 @@ print(f'Thermal resistance = {R:0.3f} K/W')
 giving us
 
 ```
-Power transmission = 2321.009 mW
-Thermal conductance = 0.064472 W/K
-Thermal resistance = 15.510 K/W
+Power transmission = 4.844 mW
+Thermal conductance = 0.000135 W/K
+Thermal resistance = 7432.015 K/W
 ```
 
 ### Calculate thermal boundary conductance
