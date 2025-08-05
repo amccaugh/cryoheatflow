@@ -7,7 +7,7 @@ name = "cryoheatflow"
 version = "0.9.0"
 description = "Cryogenic thermal calculations library for cryostat design"
 readme = "README.md"
-license = {text = "GPL-3.0-or-later"}
+license = "GPL-3.0-or-later"
 requires-python = ">=3"
 dependencies = [
     "numpy",
