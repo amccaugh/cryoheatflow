@@ -199,3 +199,7 @@ Emissivity and thermal boundary conductance values are from Ekin, J. (2006), Exp
 - NumPy
 - SciPy
 - Matplotlib (for plotting examples)
+
+## Acknowledgements
+
+This package was developed by Adam McCaughan.  Special thanks to the wider cryogenic-science community for the invaluable data used in this package. If you use this package in your work, please consider citing the relevant sources and acknowledging the authors.
