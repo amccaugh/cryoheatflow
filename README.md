@@ -50,9 +50,17 @@ print(f'Thermal conductance = {G:0.6f} W/K')
 print(f'Thermal resistance = {R:0.3f} K/W')
 ```
 
+giving us
+
+```
+Power transmission = 2321.009 mW
+Thermal conductance = 0.064472 W/K
+Thermal resistance = 15.510 K/W
+```
+
 ### Calculate thermal boundary conductance
 
-Now let's say you want to anchor a 1.5x1.5 cm^2 sample to your 4K stage, and you put grease between the sample and the 4K stage.  Your sample is going to generate 1 mW of heat load and going to warm up a little.  What temperature is your sample going to be at?
+Now let's say you want to anchor a 1.5x1.5 cm^2 sample to your 4K stage, and you put grease between the sample and the 4K stage.  Your sample is going to generate 2 mW of heat load and going to warm up a little.  What temperature is your sample going to be at?
 
 First, we calculate the *thermal boundary conductance* (in watts per kelvin), and/or its inverse quantity, the *thermal boundary resistance*:
 
@@ -72,8 +80,8 @@ This gives us `Thermal resistance R = 38.384 K/W`.  We can then estimate the tem
 
 `(temperature increase) = (thermal resistance) x (heating power)`
 
-Giving us a temperature increase of 2.25 mK. 
-
+Giving us a temperature increase of ~76.8 mK. 
+ 
 
 
 ## Available Materials
