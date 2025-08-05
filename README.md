@@ -8,6 +8,17 @@ A Python package for cryogenic thermal analysis and heat transfer calculations. 
 pip install cryoheatflow
 ```
 
+## Table of Contents
+
+- [Quick Start](#quick-start)
+  - [Calculate Thermal Conductivity](#calculate-thermal-conductivity)
+  - [Calculate Thermal Power Transfer](#calculate-thermal-power-transfer)
+  - [Multilayer Insulation Analysis](#multilayer-insulation-analysis)
+  - [Plotting Thermal Conductivity Curves](#plotting-thermal-conductivity-curves)
+- [Available Materials](#available-materials)
+- [Data Sources](#data-sources)
+
+
 ## Features
 
 - **Thermal conductivity calculations** for various materials at cryogenic temperatures
@@ -30,7 +41,7 @@ result = k_conductivity_function(T)
 print(f'Thermal conductivity = {result} W/m*K')
 ```
 
-### Calculate thermal power transfer
+### Calculate Thermal Power Transfer
 
 Let's say you wanted to connect a stainless-steel microwave coax line from a 40K stage to a 4K stage. The coax has a diameter of 0.085" (so-called "085" coax), and is 30mm long.  How much heat would be transferred?  
 
@@ -83,6 +94,45 @@ This gives us `Thermal resistance R = 38.384 K/W`.  We can then estimate the tem
 Giving us a temperature increase of ~76.8 mK. 
  
 
+### Multilayer Insulation Analysis
+
+```python
+from cryoheatflow import solve_multilayer_insulation
+from cryoheatflow.emissivity import Al_polished, Al_oxidized, mylar
+
+# Calculate effectiveness of multilayer insulation
+T1 = 4   # Cold side temperature (K)
+T2 = 85  # Warm side temperature (K)
+N = 2    # Number of mylar layers
+emissivity1 = Al_oxidized    # Emissivity of the first layer (e.g. 300K walls)
+emissivity_mylar = mylar     # Emissivity of the multilayer mylar layers
+emissivity2 = Al_polished    # Emissivity of the last layer (e.g. 40K walls)
+area = (20e-2)**2           # Area in m^2
+
+layer_temps, qdot = solve_multilayer_insulation(T1, T2, N, emissivity1, emissivity_mylar, emissivity2, area)
+print(f'Layer temperatures: {layer_temps}')
+print(f'Thermal power: {abs(qdot)} W')
+```
+
+
+### Plotting Thermal Conductivity Curves
+
+```python
+from cryoheatflow.conductivity import k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Plot thermal conductivity vs temperature for all materials
+for k_fun in [k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon]:
+    T = np.linspace(4, 300, 1000)
+    k = k_fun(T)
+    plt.loglog(T, k)
+
+plt.xlabel('Temperature (K)')
+plt.ylabel('Thermal conductivity (W/m*K)')
+plt.legend(['SS', 'CuNi', 'Al 6061-T6', 'Al 6063-T5', 'Al 1100', 'BeCu', 'Brass', 'Cu (RRR=50)', 'Cu (RRR=100)', 'G10', 'Nylon'], loc='lower right')
+plt.show()
+```
 
 ## Available Materials
 
@@ -118,46 +168,6 @@ The package provides thermal conductivity functions for various materials from t
 - `stainless` - Stainless steel (ε = 0.07)
 - `mylar` - Mylar (ε = 0.05)
 
-## Examples
-
-### Plotting Thermal Conductivity Curves
-
-```python
-from cryoheatflow.conductivity import k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Plot thermal conductivity vs temperature for all materials
-for k_fun in [k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon]:
-    T = np.linspace(4, 300, 1000)
-    k = k_fun(T)
-    plt.loglog(T, k)
-
-plt.xlabel('Temperature (K)')
-plt.ylabel('Thermal conductivity (W/m*K)')
-plt.legend(['SS', 'CuNi', 'Al 6061-T6', 'Al 6063-T5', 'Al 1100', 'BeCu', 'Brass', 'Cu (RRR=50)', 'Cu (RRR=100)', 'G10', 'Nylon'], loc='lower right')
-plt.show()
-```
-
-### Multilayer Insulation Analysis
-
-```python
-from cryoheatflow import solve_multilayer_insulation
-from cryoheatflow.emissivity import Al_polished, Al_oxidized, mylar
-
-# Calculate effectiveness of multilayer insulation
-T1 = 4   # Cold side temperature (K)
-T2 = 85  # Warm side temperature (K)
-N = 2    # Number of mylar layers
-emissivity1 = Al_oxidized    # Emissivity of the first layer (e.g. 300K walls)
-emissivity_mylar = mylar     # Emissivity of the multilayer mylar layers
-emissivity2 = Al_polished    # Emissivity of the last layer (e.g. 40K walls)
-area = (20e-2)**2           # Area in m^2
-
-layer_temps, qdot = solve_multilayer_insulation(T1, T2, N, emissivity1, emissivity_mylar, emissivity2, area)
-print(f'Layer temperatures: {layer_temps}')
-print(f'Thermal power: {abs(qdot)} W')
-```
 
 ## Area Calculations
 
@@ -181,7 +191,3 @@ Emissivity and thermal boundary conductance values are from Ekin, J. (2006), Exp
 - NumPy
 - SciPy
 - Matplotlib (for plotting examples)
-
-## References
-- 
--  [2] Ekin, J. (2006), Experimental Techniques for Low-Temperature Measurements, Oxford University Press, Oxford, UK (Accessed August 5, 2025) 
