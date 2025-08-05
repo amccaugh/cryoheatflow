@@ -117,8 +117,7 @@ print(f'Thermal power: {abs(qdot)} W')
 
 ### Plotting Thermal Conductivity Curves
 
-<img width="994" height="590" alt="image" src="https://github.com/user-attachments/assets/78d376eb-66b8-49c1-bb1b-ece8f837a121" />
-
+<img width="994" height="590" alt="image" src="https://github.com/user-attachments/assets/cf44e010-6eff-4782-97ac-f5ff1f8c2ffc" />
 
 ```python
 from cryoheatflow.conductivity import ( k_ss, k_cuni, k_al6061, k_al6063, k_brass,
