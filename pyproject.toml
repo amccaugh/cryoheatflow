@@ -10,8 +10,8 @@ readme = "README.md"
 license = {text = "GPL-3.0-or-later"}
 requires-python = ">=3"
 dependencies = [
-    "numpy>=2.0.0",
-    "scipy>=1.0.0",
+    "numpy",
+    "scipy",
 ]
 authors = [
     { name = "Adam McCaughan", email = "adam.mccaughan@nist.gov"},
