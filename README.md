@@ -30,16 +30,18 @@ result = k_conductivity_function(T)
 print(f'Thermal conductivity = {result} W/m*K')
 ```
 
-### Calculate Thermal Power Transfer
+### Calculate thermal power transfer
+
+Let's say you wanted to connect a stainless-steel microwave coax line from a 40K stage to a 4K stage. The coax has a diameter of 0.085" (so-called "085" coax), and is 30mm long.  How much heat would be transferred?  
 
 ```python
 import cryoheatflow
 
 # Calculate thermal power through a copper wire (22 gauge, RRR=50)
 k = cryoheatflow.conductivity.k_cu_rrr50
-area = cryoheatflow.area.wire_gauge_area(22)  # 22 AWG wire
+area = cryoheatflow.area.coax_085  # 22 AWG wire
 length = 30e-3  # 30 mm
-T1 = 60  # 60 K 
+T1 = 40  # 40 K 
 T2 = 4   # 4 K
 
 P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
@@ -48,19 +50,31 @@ print(f'Thermal conductance = {G:0.6f} W/K')
 print(f'Thermal resistance = {R:0.3f} K/W')
 ```
 
-### Calculate Thermal Boundary Conductance
+### Calculate thermal boundary conductance
+
+Now let's say you want to anchor a 1.5x1.5 cm^2 sample to your 4K stage, and you put grease between the sample and the 4K stage.  Your sample is going to generate 1 mW of heat load and going to warm up a little.  What temperature is your sample going to be at?
+
+First, we calculate the *thermal boundary conductance* (in watts per kelvin), and/or its inverse quantity, the *thermal boundary resistance*:
 
 ```python
 import cryoheatflow
 
 # Calculate thermal boundary conductance across a solder joint
-T = 15  # Temperature in Kelvin
-area_m2 = 3e-3 * 10e-3  # 3 mm x 10 mm contact area
+T = 4  # Temperature in Kelvin
+area_m2 = 15e-3 * 15e-3  # 15 mm x 15 mm contact area
 
-h = cryoheatflow.conductivity.h_solder_pb_sn(T=T, area=area_m2)
+h = cryoheatflow.conductivity.h_grease(T=T, area=area_m2)
 print(f'Thermal conductance = {h:0.3f} W/K')
 print(f'Thermal resistance = {1/h:0.3f} K/W')
 ```
+
+This gives us `Thermal resistance R = 38.384 K/W`.  We can then estimate the temperature by the simple relation 
+
+`(temperature increase) = (thermal resistance) x (heating power)`
+
+Giving us a temperature increase of 2.25 mK. 
+
+
 
 ## Available Materials
 
@@ -83,7 +97,7 @@ The package provides thermal conductivity functions for various materials:
 ### Thermal Boundary Conductance Functions
 
 - `h_grease` - Thermal conductance of grease for given contact area
-- `h_solder_pb_sn` - Thermal conductance of PbSn solder for given contact area
+- `h_solder_pb_sn` - Thermal conductance of standard lead-tin (PbSn) solder for given contact area
 
 ### Emissivity Values
 
