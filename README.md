@@ -25,7 +25,7 @@ pip install cryoheatflow
 - **Thermal power transfer** through conductors and insulators
 - **Thermal boundary conductance** across joints and interfaces
 - **Multilayer insulation** effectiveness calculations
-- **Area calculations** for various cross-sectional geometries
+- **Area calculations** for various cross-sectional geometries (coax, AWG wire, etc)
 
 ## Quick Start
 
