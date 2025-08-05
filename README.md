@@ -88,7 +88,7 @@ Giving us a temperature increase of ~76.8 mK.
 
 ### Thermal Conductivity Functions
 
-The package provides thermal conductivity functions for various materials:
+The package provides thermal conductivity functions for various materials from the [NIST cryogenic thermal conductivity reference](https://trc.nist.gov/cryogenics/materials/materialproperties.htm):
 
 - `k_ss` - Stainless steel (316/314/304L)
 - `k_cuni` - 70-30 CuNi cupronickel
@@ -173,7 +173,7 @@ The package includes functions for calculating cross-sectional areas:
 Thermal conductivity data is sourced from the NIST Cryogenics Materials Database:
 https://trc.nist.gov/cryogenics/materials/materialproperties.htm
 
-Emissivity values are from Ekin's "Experimental Techniques for Low-Temperature Measurements" Appendix A2.2.
+Emissivity and thermal boundary conductance values are from Ekin, J. (2006), Experimental Techniques for Low-Temperature Measurements, Oxford University Press, Oxford, UK.
 
 ## Requirements
 
@@ -181,3 +181,7 @@ Emissivity values are from Ekin's "Experimental Techniques for Low-Temperature M
 - NumPy
 - SciPy
 - Matplotlib (for plotting examples)
+
+## References
+- 
+-  [2] Ekin, J. (2006), Experimental Techniques for Low-Temperature Measurements, Oxford University Press, Oxford, UK (Accessed August 5, 2025) 
