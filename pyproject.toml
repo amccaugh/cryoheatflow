@@ -1,7 +1,23 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "cryoheatflow"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.9.0"
+description = "Cryogenic thermal calculations library for cryostat design"
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = []
+license = {text = "GPL-3.0-or-later"}
+requires-python = ">=3"
+dependencies = [
+    "numpy>=2.0.0",
+    "scipy>=1.0.0",
+]
+authors = [
+    { name = "Adam McCaughan", email = "adam.mccaughan@nist.gov"},
+    { name = "Ryan Morgenstern", email = "ryan.morgenstern@nist.gov"},
+]
+
+[tool.setuptools]
+packages = ["cryoheatflow"]
+py-modules = []  # For single .py files at root level

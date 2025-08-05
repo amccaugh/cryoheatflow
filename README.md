@@ -1,0 +1,161 @@
+# CryoHeatFlow
+
+A Python package for cryogenic thermal analysis and heat transfer calculations. This package provides functions for calculating thermal conductivity, thermal power transfer, thermal boundary conductance, and multilayer insulation effectiveness.
+
+## Installation
+
+```bash
+pip install cryoheatflow
+```
+
+## Features
+
+- **Thermal conductivity calculations** for various materials at cryogenic temperatures
+- **Thermal power transfer** through conductors and insulators
+- **Thermal boundary conductance** across joints and interfaces
+- **Multilayer insulation** effectiveness calculations
+- **Area calculations** for various cross-sectional geometries
+
+## Quick Start
+
+### Calculate Thermal Conductivity
+
+```python
+import cryoheatflow
+
+# Get thermal conductivity for stainless steel at 10K
+k_conductivity_function = cryoheatflow.conductivity.k_ss
+T = 10  # Temperature in Kelvin
+result = k_conductivity_function(T)
+print(f'Thermal conductivity = {result} W/m*K')
+```
+
+### Calculate Thermal Power Transfer
+
+```python
+import cryoheatflow
+
+# Calculate thermal power through a copper wire (22 gauge, RRR=50)
+k = cryoheatflow.conductivity.k_cu_rrr50
+area = cryoheatflow.area.wire_gauge_area(22)  # 22 AWG wire
+length = 30e-3  # 30 mm
+T1 = 60  # 60 K 
+T2 = 4   # 4 K
+
+P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
+print(f'Power transmission = {P*1e3:0.3f} mW')
+print(f'Thermal conductance = {G:0.6f} W/K')
+print(f'Thermal resistance = {R:0.3f} K/W')
+```
+
+### Calculate Thermal Boundary Conductance
+
+```python
+import cryoheatflow
+
+# Calculate thermal boundary conductance across a solder joint
+T = 15  # Temperature in Kelvin
+area_m2 = 3e-3 * 10e-3  # 3 mm x 10 mm contact area
+
+h = cryoheatflow.conductivity.h_solder_pb_sn(T=T, area=area_m2)
+print(f'Thermal conductance = {h:0.3f} W/K')
+print(f'Thermal resistance = {1/h:0.3f} K/W')
+```
+
+## Available Materials
+
+### Thermal Conductivity Functions
+
+The package provides thermal conductivity functions for various materials:
+
+- `k_ss` - Stainless steel (316/314/304L)
+- `k_cuni` - 70-30 CuNi cupronickel
+- `k_al6061` - Aluminum 6061-T6
+- `k_al6063` - Aluminum 6063-T5
+- `k_al1100` - Aluminum 1100
+- `k_brass` - Brass (UNS C26000)
+- `k_becu` - Beryllium copper
+- `k_cu_rrr50` - Copper (RRR=50, typically ETP or OFHC)
+- `k_cu_rrr100` - Copper (RRR=100)
+- `k_g10` - Fiberglass-epoxy (G-10)
+- `k_nylon` - Nylon (polyamide)
+
+### Thermal Boundary Conductance Functions
+
+- `h_grease` - Thermal conductance of grease for given contact area
+- `h_solder_pb_sn` - Thermal conductance of PbSn solder for given contact area
+
+### Emissivity Values
+
+- `Al_polished` - Polished aluminum (ε = 0.03)
+- `Al_oxidized` - Oxidized aluminum (ε = 0.3)
+- `Cu_polished` - Polished copper (ε = 0.02)
+- `Cu_oxidized` - Oxidized copper (ε = 0.6)
+- `brass_polished` - Polished brass (ε = 0.03)
+- `brass_oxidized` - Oxidized brass (ε = 0.6)
+- `stainless` - Stainless steel (ε = 0.07)
+- `mylar` - Mylar (ε = 0.05)
+
+## Examples
+
+### Plotting Thermal Conductivity Curves
+
+```python
+from cryoheatflow.conductivity import k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Plot thermal conductivity vs temperature for all materials
+for k_fun in [k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon]:
+    T = np.linspace(4, 300, 1000)
+    k = k_fun(T)
+    plt.loglog(T, k)
+
+plt.xlabel('Temperature (K)')
+plt.ylabel('Thermal conductivity (W/m*K)')
+plt.legend(['SS', 'CuNi', 'Al 6061-T6', 'Al 6063-T5', 'Al 1100', 'BeCu', 'Brass', 'Cu (RRR=50)', 'Cu (RRR=100)', 'G10', 'Nylon'], loc='lower right')
+plt.show()
+```
+
+### Multilayer Insulation Analysis
+
+```python
+from cryoheatflow import solve_multilayer_insulation
+from cryoheatflow.emissivity import Al_polished, Al_oxidized, mylar
+
+# Calculate effectiveness of multilayer insulation
+T1 = 4   # Cold side temperature (K)
+T2 = 85  # Warm side temperature (K)
+N = 2    # Number of mylar layers
+emissivity1 = Al_oxidized    # Emissivity of the first layer (e.g. 300K walls)
+emissivity_mylar = mylar     # Emissivity of the multilayer mylar layers
+emissivity2 = Al_polished    # Emissivity of the last layer (e.g. 40K walls)
+area = (20e-2)**2           # Area in m^2
+
+layer_temps, qdot = solve_multilayer_insulation(T1, T2, N, emissivity1, emissivity_mylar, emissivity2, area)
+print(f'Layer temperatures: {layer_temps}')
+print(f'Thermal power: {abs(qdot)} W')
+```
+
+## Area Calculations
+
+The package includes functions for calculating cross-sectional areas:
+
+- `tube_area(diameter, wall_thickness)` - Annular cross-section area
+- `cylinder_area(diameter)` - Circular cross-section area
+- `wire_gauge_area(awg)` - Wire cross-section area based on AWG gauge
+- `coax_141`, `coax_085`, `coax_047`, `coax_034` - Predefined coaxial cable areas
+
+## Data Sources
+
+Thermal conductivity data is sourced from the NIST Cryogenics Materials Database:
+https://trc.nist.gov/cryogenics/materials/materialproperties.htm
+
+Emissivity values are from Ekin's "Experimental Techniques for Low-Temperature Measurements" Appendix A2.2.
+
+## Requirements
+
+- Python >= 3
+- NumPy
+- SciPy
+- Matplotlib (for plotting examples)
