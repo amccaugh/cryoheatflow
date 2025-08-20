@@ -46,14 +46,15 @@ for i, k_fun in enumerate(k_funcs):
 ax.set_xscale('log')
 ax.set_xticks([1, 4, 10, 30, 100, 300])
 ax.set_xticklabels(['1K', '4K', '10K', '30K', '100K', '300K'])
+ax.tick_params(axis='both', which='major', labelsize=14)
 
 # Add minor grid lines
 ax.grid(True, which='minor', alpha=0.3)
 ax.grid(True, which='major', alpha=0.7)
 
-ax.set_xlabel('Temperature (K)')
-ax.set_ylabel('Thermal conductivity (W/m·K)')
-ax.legend(labels, loc='center right', bbox_to_anchor=(1.15, 0.5))
+ax.set_xlabel('Temperature (K)', fontsize=14)
+ax.set_ylabel('Thermal conductivity (W/m·K)', fontsize=14)
+ax.legend(labels, loc='center right', bbox_to_anchor=(1.25, 0.5), fontsize=11)
 
 plt.tight_layout()
 plt.show()
