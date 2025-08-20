@@ -117,30 +117,9 @@ print(f'Thermal power: {abs(qdot)} W')
 
 ### Plotting Thermal Conductivity Curves
 
-<img width="994" height="590" alt="image" src="https://github.com/user-attachments/assets/fb1a1dbf-bd35-445f-8dad-dcd039d714da" />
+<img width="993" height="590" alt="image" src="https://github.com/user-attachments/assets/f91b1136-2dbb-4624-bfee-bd6dadda5335" />
 
-```python
-from cryoheatflow.conductivity import ( k_ss, k_cuni, k_al6061, k_al6063, k_brass,
-     k_cu_rrr50, k_al1100, k_becu, k_cu_rrr100, k_g10, k_nylon)
-import matplotlib.pyplot as plt
-import numpy as np
-
-# Plot thermal conductivity vs temperature for all materials
-k_funcs = [k_ss, k_cuni, k_al6061, k_al6063, k_al1100, k_becu, k_brass, 
-           k_cu_rrr50, k_cu_rrr100, k_g10, k_nylon]
-
-labels = ['SS', 'CuNi', 'Al 6061-T6', 'Al 6063-T5', 'Al 1100', 
-          'BeCu', 'Brass', 'Cu (RRR=50)', 'Cu (RRR=100)', 'G10', 'Nylon']
-for k_fun in k_funcs:
-    T = np.linspace(4, 300, 1000)
-    k = k_fun(T)
-    plt.loglog(T, k)
-
-plt.xlabel('Temperature (K)')
-plt.ylabel('Thermal conductivity (W/m*K)')
-plt.legend(labels, loc='lower right')
-plt.show()
-```
+https://github.com/amccaugh/cryoheatflow/blob/main/plot_thermal_conductivities.py
 
 ## Available Materials
 
