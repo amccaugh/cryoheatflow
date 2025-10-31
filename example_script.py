@@ -10,11 +10,43 @@ print(f'Thermal conductivity = {result} W/m*K')
 #%% Calculate thermal power transfer through a copper wire (22 gauge) of medium purity (RRR = 50)
 import cryoheatflow
 
-k = cryoheatflow.conductivity.k_cu_rrr50
-area = cryoheatflow.area.wire_gauge_area(22)
-length = 30e-3 # 30 mm
-T1 = 60 # 60 K 
+k = cryoheatflow.conductivity.k_g10
+area = 0.8e-3*5e-3*8
+length = 11e-3 # 30 mm
+T1 = 80 # 60 K 
 T2 = 4 # 4 K
+
+P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
+print(f'Power transmission = {P*1e3:0.3f} mW')
+print(f'Thermal conductance = {G:0.6f} W/K')
+print(f'Thermal resistance = {R:0.3f} K/W')
+
+
+
+#%% Calculate thermal power transfer through a copper wire (22 gauge) of medium purity (RRR = 50)
+import cryoheatflow
+
+k = cryoheatflow.conductivity.k_al6061
+area = 0.8e-3*15e-3
+length = 100e-3 # 30 mm
+T1 = 60 # 60 K 
+T2 = 60 # 4 K
+
+P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
+print(f'Power transmission = {P*1e3:0.3f} mW')
+print(f'Thermal conductance = {G:0.6f} W/K')
+print(f'Thermal resistance = {R:0.3f} K/W')
+
+
+
+#%% Calculate thermal power transfer through a copper wire (22 gauge) of medium purity (RRR = 50)
+import cryoheatflow
+
+k = cryoheatflow.conductivity.k_cu_rrr50
+area = 1.5e-6
+length = 200e-3 # 30 mm
+T1 = 60 # 60 K 
+T2 = 60 # 4 K
 
 P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
 print(f'Power transmission = {P*1e3:0.3f} mW')
@@ -31,6 +63,25 @@ area_m2 = 3e-3 * 10e-3 # 3 mm x 10 mm
 h = cryoheatflow.conductivity.h_solder_pb_sn(T = T, area = area_m2)
 print(f'Thermal conductance = {h:0.3f} W/K')
 print(f'Thermal resistance = {1/h:0.3f} K/W')
+
+
+#%% Calculate temperature rise across due to heat load
+
+# Assume you have a 4mm thick x 2mm wide x 100 mm long strip of aluminum 6061-T6 that's attached to a 40K coldhead at one end.
+# If the other end of the strip has 250 mW of heat load applied to it, what will the temperature be at the hot end?
+import cryoheatflow
+
+k = cryoheatflow.conductivity.k_al6061
+area = 4e-3 * 2e-3 # 4 mm x 2 mm
+length = 100e-3 # 100 mm
+T1 = 40 # 40 K 
+heat_load = .25 # 250 mW
+T2, thermal_conductance, thermal_resistance = cryoheatflow.calculate_temperature_rise(k, area, length, T1, heat_load)
+print(f'Temperature at cold end = {T1:0.3f} K')
+print(f'Temperature at hot end = {T2:0.3f} K')
+print(f'Thermal conductance = {thermal_conductance:0.3f} W/K')
+print(f'Thermal resistance = {thermal_resistance:0.3f} K/W') 
+
 
 
 #%% Plotting curves

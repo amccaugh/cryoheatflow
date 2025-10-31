@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import numpy as np
-from scipy.optimize import least_squares
+from scipy.optimize import least_squares, minimize
 
 
 def thermal_conductivity_integral(k_fun, T1, T2):
@@ -37,6 +37,32 @@ def calculate_thermal_transfer(material_k_fun, area, length, T1, T2):
     thermal_resistance = 1/thermal_conductance
 
     return power_transmission, thermal_conductance, thermal_resistance
+
+def calculate_temperature_rise(material_k_fun, area, length, T1, heat_load):
+    """ Calculate the temperature rise across a material of given thermal conductivity
+    cross-sectional area, and length, given a heat load. """
+    
+
+    # Objective function: minimize the squared difference between power_transmission and heat_load
+    def objective(T2_array):
+        T2 = T2_array[0]
+        power_transmission, _, _ = calculate_thermal_transfer(material_k_fun, area, length, T1, T2)
+        return (power_transmission - heat_load)**2
+    
+    # Initial guess: assume some temperature rise
+    T2_guess = [T1 + 10]  # Start with 10K rise as initial guess
+    
+    # Use minimize to find T2
+    result = minimize(objective, T2_guess, method='Nelder-Mead')
+    
+    T2 = result.x[0]
+    power_transmission, thermal_conductance, thermal_resistance = calculate_thermal_transfer(
+        material_k_fun, area, length, T1, T2
+    )
+    if abs(power_transmission - heat_load) > 0.1:
+        print(f'Warning: Power transmission error = {abs(power_transmission - heat_load):0.3f} W')
+
+    return T2, thermal_conductance, thermal_resistance
 
 
 ### Multilayer insulation
