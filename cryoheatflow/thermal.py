@@ -50,10 +50,11 @@ def calculate_temperature_rise(material_k_fun, area, length, T1, heat_load):
         return (power_transmission - heat_load)**2
     
     # Initial guess: assume some temperature rise
-    T2_guess = [T1 + 10]  # Start with 10K rise as initial guess
+    T2_guess = [T1 + 0.1]  # Start with 10K rise as initial guess
     
-    # Use minimize to find T2
-    result = minimize(objective, T2_guess, method='Nelder-Mead')
+    # Use minimize to find T2 with bounds ensuring T2 > T1
+    bounds = [(T1, None)]  # T2 must be > 0
+    result = minimize(objective, T2_guess, method='Nelder-Mead', bounds=bounds)
     
     T2 = result.x[0]
     power_transmission, thermal_conductance, thermal_resistance = calculate_thermal_transfer(
@@ -61,6 +62,7 @@ def calculate_temperature_rise(material_k_fun, area, length, T1, heat_load):
     )
     if abs(power_transmission - heat_load) > 0.1:
         print(f'Warning: Power transmission error = {abs(power_transmission - heat_load):0.3f} W')
+
 
     return T2, thermal_conductance, thermal_resistance
 
