@@ -13,6 +13,7 @@ pip install cryoheatflow
 - [Quick Start](#quick-start)
   - [Calculate Thermal Conductivity](#calculate-thermal-conductivity)
   - [Calculate Thermal Power Transfer](#calculate-thermal-power-transfer)
+  - [Calculate Temperature Rise](#calculate-temperature-rise)
   - [Multilayer Insulation Analysis](#multilayer-insulation-analysis)
   - [Plotting Thermal Conductivity Curves](#plotting-thermal-conductivity-curves)
 - [Available Materials](#available-materials)
@@ -93,6 +94,37 @@ This gives us `Thermal resistance R = 38.384 K/W`.  We can then estimate the tem
 
 Giving us a temperature increase of ~76.8 mK. 
  
+
+### Calculate Temperature Rise
+
+If you have a thermal conductor with a known heat load applied at one end and the other end anchored at a known temperature, you can calculate the temperature rise at the hot end.
+
+For example, assume you have a 4mm thick x 2mm wide x 100mm long strip of aluminum 6061-T6 that's attached to a 40K coldhead at one end. If the other end of the strip has 250 mW of heat load applied to it, what will the temperature be at the hot end?
+
+```python
+import cryoheatflow
+
+k = cryoheatflow.conductivity.k_al6061
+area = 4e-3 * 2e-3  # 4 mm x 2 mm
+length = 100e-3  # 100 mm
+T1 = 40  # 40 K (cold end temperature)
+heat_load = 0.25  # 250 mW
+
+T2, thermal_conductance, thermal_resistance = cryoheatflow.calculate_temperature_rise(k, area, length, T1, heat_load)
+print(f'Temperature at cold end = {T1:0.3f} K')
+print(f'Temperature at hot end = {T2:0.3f} K')
+print(f'Thermal conductance = {thermal_conductance:0.3f} W/K')
+print(f'Thermal resistance = {thermal_resistance:0.3f} K/W')
+```
+giving us 
+
+```
+Temperature at cold end = 40.000 K
+Temperature at hot end = 83.680 K
+Thermal conductance = 0.006 W/K
+Thermal resistance = 174.719 K/W
+```
+
 
 ### Multilayer Insulation Analysis
 
