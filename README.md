@@ -2,6 +2,9 @@
 
 A Python package for cryogenic thermal analysis and heat transfer calculations. This package provides functions for calculating thermal conductivity, thermal power transfer, thermal boundary conductance, and multilayer insulation effectiveness.
 
+
+<img width="974" height="590" alt="image" src="https://github.com/user-attachments/assets/74a3e10f-3773-4f1b-b061-3c0c99d110d5" />
+
 ## Installation
 
 ```bash
