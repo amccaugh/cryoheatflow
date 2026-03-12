@@ -82,7 +82,6 @@ First, we calculate the *thermal boundary conductance* (in watts per kelvin), an
 ```python
 import cryoheatflow
 
-# Calculate thermal boundary conductance across a solder joint
 T = 4  # Temperature in Kelvin
 area_m2 = 15e-3 * 15e-3  # 15 mm x 15 mm contact area
 

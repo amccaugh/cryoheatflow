@@ -54,13 +54,13 @@ print(f'Thermal conductance = {G:0.6f} W/K')
 print(f'Thermal resistance = {R:0.3f} K/W')
 
 
-#%% Calculate thermal boundary conductance across a solder joint
+#%% Calculate thermal boundary conductance across a greased joint
 import cryoheatflow
 
 T = 15
 area_m2 = 3e-3 * 10e-3 # 3 mm x 10 mm
 
-h = cryoheatflow.conductivity.h_solder_pb_sn(T = T, area = area_m2)
+h = cryoheatflow.conductivity.h_grease(T = T, area = area_m2)
 print(f'Thermal conductance = {h:0.3f} W/K')
 print(f'Thermal resistance = {1/h:0.3f} K/W')
 
