@@ -10,10 +10,10 @@ print(f'Thermal conductivity = {result} W/m*K')
 #%% Calculate thermal power transfer through a copper wire (22 gauge) of medium purity (RRR = 50)
 import cryoheatflow
 
-k = cryoheatflow.conductivity.k_g10
-area = 0.8e-3*5e-3*8
-length = 11e-3 # 30 mm
-T1 = 80 # 60 K 
+k = cryoheatflow.conductivity.k_cu_rrr50
+area = cryoheatflow.area.wire_gauge_area(22)
+length = 30e-3 # 30 mm
+T1 = 60 # 60 K 
 T2 = 4 # 4 K
 
 P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
@@ -22,15 +22,14 @@ print(f'Thermal conductance = {G:0.6f} W/K')
 print(f'Thermal resistance = {R:0.3f} K/W')
 
 
-
-#%% Calculate thermal power transfer through a copper wire (22 gauge) of medium purity (RRR = 50)
+#%% Calculate thermal power transfer through an aluminum (6061 alloy) strip 0.8 mm x 15 mm x 100 mm
 import cryoheatflow
 
 k = cryoheatflow.conductivity.k_al6061
 area = 0.8e-3*15e-3
 length = 100e-3 # 30 mm
 T1 = 60 # 60 K 
-T2 = 60 # 4 K
+T2 = 4 # 4 K
 
 P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
 print(f'Power transmission = {P*1e3:0.3f} mW')
