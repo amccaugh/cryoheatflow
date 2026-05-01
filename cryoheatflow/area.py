@@ -30,6 +30,28 @@ def wire_gauge_area(awg):
     area = np.pi*(d/2)**2
     return area
 
+# SWG diameters in mm (gauges 1–50) per BS 3737
+_SWG_DIAMETER_MM = {
+     1: 7.620,  2: 7.010,  3: 6.401,  4: 5.893,  5: 5.385,
+     6: 4.877,  7: 4.470,  8: 4.064,  9: 3.658, 10: 3.251,
+    11: 2.946, 12: 2.642, 13: 2.337, 14: 2.032, 15: 1.829,
+    16: 1.626, 17: 1.422, 18: 1.219, 19: 1.016, 20: 0.914,
+    21: 0.813, 22: 0.711, 23: 0.610, 24: 0.559, 25: 0.508,
+    26: 0.457, 27: 0.4166,28: 0.3759,29: 0.3454,30: 0.3150,
+    31: 0.2946,32: 0.2743,33: 0.2540,34: 0.2337,35: 0.2134,
+    36: 0.1930,37: 0.1727,38: 0.1524,39: 0.1321,40: 0.1219,
+    41: 0.1118,42: 0.1016,43: 0.0914,44: 0.0813,45: 0.0711,
+    46: 0.0610,47: 0.0508,48: 0.0406,49: 0.0305,50: 0.0254,
+}
+
+def wire_swg_area(swg):
+    """ Cross-sectional area (m²) of a solid wire by Standard Wire Gauge (SWG / Imperial).
+    Valid for SWG 1–50 per BS 3737. """
+    if swg not in _SWG_DIAMETER_MM:
+        raise ValueError(f'SWG {swg} is not valid; must be an integer between 1 and 50.')
+    d = _SWG_DIAMETER_MM[swg] * 1e-3  # mm → m
+    return np.pi * (d / 2) ** 2
+
 def _coax_area(d_inner_conductor, d_insulation, d_outer_conductor):
     area_outer_conductor = np.pi*(d_outer_conductor/2)**2 - np.pi*(d_insulation/2)**2
     area_inner_conductor = np.pi*(d_inner_conductor/2)**2

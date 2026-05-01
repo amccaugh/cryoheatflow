@@ -199,7 +199,8 @@ The package includes functions for calculating cross-sectional areas:
 
 - `tube_area(diameter, wall_thickness)` - Annular cross-section area
 - `cylinder_area(diameter)` - Circular cross-section area
-- `wire_gauge_area(awg)` - Wire cross-section area based on AWG gauge
+- `wire_gauge_area(awg)` - Wire cross-section area based on AWG (American Wire Gauge)
+- `wire_swg_area(swg)` - Wire cross-section area based on SWG (Standard/Imperial Wire Gauge, BS 3737), valid for gauges 1–50
 - `coax_141`, `coax_085`, `coax_047`, `coax_034` - Predefined coaxial cable areas
 
 ## Data Sources
