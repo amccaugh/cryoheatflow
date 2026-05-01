@@ -27,6 +27,17 @@ def _valid_temperatures(T, T_min, T_max):
         return np.where((T >= T_min) & (T <= T_max), T, np.nan)
 
 
+def _loglog_interp(T, T_pts, k_pts):
+    """ Log-log linear interpolation between tabulated (T, k) points.
+    Returns NaN outside the tabulated range. """
+    T_pts = np.asarray(T_pts, dtype=float)
+    k_pts = np.asarray(k_pts, dtype=float)
+    T = _valid_temperatures(T, T_min=T_pts[0], T_max=T_pts[-1])
+    with np.errstate(invalid='ignore'):
+        log_k = np.interp(np.log10(T), np.log10(T_pts), np.log10(k_pts))
+    return 10**log_k
+
+
 def k_ss(T):
     """ Stainless steel (316/314/304L) cryogenic thermal conductivity reference data
     from https://trc.nist.gov/cryogenics/materials/materialproperties.htm """
@@ -121,7 +132,29 @@ def k_nylon(T):
                   f*np.log10(T)**5+g*np.log10(T)**6+h*np.log10(T)**7+i*np.log10(T)**8)
     return k
 
+def k_phosphor_bronze(T):
+    """ Phosphor bronze (94.8% Cu, 5% Sn, 0.2% P) thermal conductivity, log-log
+    interpolated from the Lake Shore Cryotronics material properties table:
+    https://www.lakeshore.com/resources/material-properties """
+    T_pts = [1, 4, 10, 20, 80, 150, 300]
+    k_pts = [0.22, 1.6, 4.6, 10, 25, 34, 48]
+    return _loglog_interp(T, T_pts, k_pts)
 
+def k_nichrome(T):
+    """ Nichrome (80% Ni, 20% Cr) thermal conductivity, log-log interpolated
+    from the Lake Shore Cryotronics material properties table:
+    https://www.lakeshore.com/resources/material-properties """
+    T_pts = [4, 10, 20, 80, 150, 300]
+    k_pts = [0.25, 0.7, 2.6, 8, 9.5, 12]
+    return _loglog_interp(T, T_pts, k_pts)
+
+def k_manganin(T):
+    """ Manganin (83% Cu, 13% Mn, 4% Ni) thermal conductivity, log-log
+    interpolated from the Lake Shore Cryotronics material properties table:
+    https://www.lakeshore.com/resources/material-properties """
+    T_pts = [0.1, 0.4, 1, 4, 10, 20, 80, 150, 300]
+    k_pts = [0.006, 0.02, 0.06, 0.5, 2, 3.3, 13, 16, 22]
+    return _loglog_interp(T, T_pts, k_pts)
 
 
 ### Thermal boundary conductance
