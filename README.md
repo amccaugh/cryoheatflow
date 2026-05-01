@@ -2,8 +2,7 @@
 
 A Python package for cryogenic thermal analysis and heat transfer calculations. This package provides functions for calculating thermal conductivity, thermal power transfer, thermal boundary conductance, and multilayer insulation effectiveness.
 
-
-<img width="974" height="590" alt="image" src="https://github.com/user-attachments/assets/74a3e10f-3773-4f1b-b061-3c0c99d110d5" />
+<img width="974" height="590" alt="image" src="https://github.com/user-attachments/assets/d3de9d49-d484-47aa-aab4-7e155d9f5431" />
 
 ## Installation
 
@@ -151,7 +150,7 @@ print(f'Thermal power: {abs(qdot)} W')
 
 ### Plotting Thermal Conductivity Curves
 
-<img width="974" height="590" alt="image" src="https://github.com/user-attachments/assets/74a3e10f-3773-4f1b-b061-3c0c99d110d5" />
+<img width="974" height="590" alt="image" src="https://github.com/user-attachments/assets/d3de9d49-d484-47aa-aab4-7e155d9f5431" />
 
 Plotting code here: https://github.com/amccaugh/cryoheatflow/blob/main/plot_thermal_conductivities.py
 
