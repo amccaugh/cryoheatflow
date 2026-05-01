@@ -159,7 +159,7 @@ Plotting code here: https://github.com/amccaugh/cryoheatflow/blob/main/plot_ther
 
 ### Thermal Conductivity Functions
 
-The package provides thermal conductivity functions for various materials from the [NIST cryogenic thermal conductivity reference](https://trc.nist.gov/cryogenics/materials/materialproperties.htm):
+The package provides thermal conductivity functions for various materials. Most are sourced from the [NIST cryogenic thermal conductivity reference](https://trc.nist.gov/cryogenics/materials/materialproperties.htm); tabulated data materials are noted separately.
 
 - `k_ss` - Stainless steel (316/314/304L)
 - `k_cuni` - 70-30 CuNi cupronickel
@@ -172,6 +172,9 @@ The package provides thermal conductivity functions for various materials from t
 - `k_cu_rrr100` - Copper (RRR=100)
 - `k_g10` - Fiberglass-epoxy (G-10)
 - `k_nylon` - Nylon (polyamide)
+- `k_phosphor_bronze` - Phosphor bronze (94.8% Cu, 5% Sn, 0.2% P) — tabulated data from Lake Shore Cryotronics, valid 1–300 K
+- `k_nichrome` - Nichrome (80% Ni, 20% Cr) — tabulated data from Lake Shore Cryotronics, valid 4–300 K
+- `k_manganin` - Manganin (83% Cu, 13% Mn, 4% Ni) — tabulated data from Lake Shore Cryotronics, valid 0.1–300 K
 
 ### Thermal Boundary Conductance Functions
 
@@ -201,8 +204,9 @@ The package includes functions for calculating cross-sectional areas:
 
 ## Data Sources
 
-Thermal conductivity data is sourced from the NIST Cryogenics Materials Database:
-https://trc.nist.gov/cryogenics/materials/materialproperties.htm
+Thermal conductivity data is sourced from:
+- NIST Cryogenics Materials Database: https://trc.nist.gov/cryogenics/materials/materialproperties.htm
+- Lake Shore Cryotronics material properties table (phosphor bronze, nichrome, manganin): https://www.lakeshore.com/resources/material-properties
 
 Emissivity and thermal boundary conductance values are from Ekin, J. (2006), Experimental Techniques for Low-Temperature Measurements, Oxford University Press, Oxford, UK.
 
