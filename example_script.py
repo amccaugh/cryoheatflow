@@ -21,13 +21,28 @@ print(f'Power transmission = {P*1e3:0.3f} mW')
 print(f'Thermal conductance = {G:0.6f} W/K')
 print(f'Thermal resistance = {R:0.3f} K/W')
 
+#%% Let's say you wanted to connect a stainless-steel microwave coax line from a 40K stage to a 4K 
+# stage. The coax has a diameter of 0.085" (so-called "085" coax), and is 30mm long. How much heat
+# would be transferred?
+import cryoheatflow
+
+k = cryoheatflow.conductivity.k_ss
+area = cryoheatflow.area.coax_085  # 0.085" outer-diameter coax
+length = 30e-3  # 30 mm
+T1 = 40  # 40 K 
+T2 = 4   # 4 K
+
+P, G, R = cryoheatflow.calculate_thermal_transfer(k, area, length, T1, T2)
+print(f'Power transmission = {P*1e3:0.3f} mW')
+print(f'Thermal conductance = {G:0.6f} W/K')
+print(f'Thermal resistance = {R:0.3f} K/W')
 
 #%% Calculate thermal power transfer through an aluminum (6061 alloy) strip 
 # With area 0.8 mm x 5 mm and length 150 mm
 import cryoheatflow
 
 k = cryoheatflow.conductivity.k_al6061
-area = 0.8e-3*5e-3 # 3 mm x 25 mm
+area = 0.8e-3*5e-3 # 0.8 mm x 5 mm
 length = 150e-3 # 150 mm
 T1 = 60 # 60 K 
 T2 = 4 # 4 K
